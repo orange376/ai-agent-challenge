@@ -92,7 +92,9 @@
 6. **运行评估**
 
 
-   项目视频简单介绍：https://www.bilibili.com/video/av116975447580144/?vd_source=b1df6ecd6f9d6fd9571ffe14f617080a
+
    ```bash
    python manual_eval.py
    ```
+
+      项目视频简单介绍：https://www.bilibili.com/video/av116975447580144/?vd_source=b1df6ecd6f9d6fd9571ffe14f617080a
