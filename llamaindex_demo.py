@@ -1,3 +1,4 @@
+# Day 11: LlamaIndex 框架对比实验 — 高封装 API vs LangChain 组件化，代码量对比
 from llama_index.core import VectorStoreIndex, SimpleDirectoryReader, Settings, Document
 from llama_index.llms.openai_like import OpenAILike
 from llama_index.embeddings.huggingface import HuggingFaceEmbedding 

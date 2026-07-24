@@ -1,3 +1,4 @@
+# Day 3: DeepSeek API 封装 — 手写 HTTP 请求，stop 参数可控制生成终止
 import requests
 import os
 from dotenv import load_dotenv

@@ -1,3 +1,4 @@
+# Day 17: 批量构建 Chroma 索引 — 三种切片策略 (256/512/1024) 独立集合，供评估切换
 import sys
 from pypdf import PdfReader
 from langchain_text_splitters import RecursiveCharacterTextSplitter

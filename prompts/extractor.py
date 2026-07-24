@@ -1,3 +1,4 @@
+# Day 5: 信息抽取 Prompt 工程 — 五轮迭代 V1→V5，准确率 78%→96%
 from llm_api import call_llm
 
 SYSTEM_PROMPT = """你是一个专业的客服信息抽取助手。你的任务是从用户投诉文本中提取关键信息。

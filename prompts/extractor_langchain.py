@@ -1,3 +1,4 @@
+# Day 8: LangChain 版信息抽取 — LCEL 链式调用重写 Day 5 的 extractor
 import os
 from dotenv import load_dotenv
 from langchain_openai import ChatOpenAI

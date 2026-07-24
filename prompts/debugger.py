@@ -1,3 +1,4 @@
+# Day 5: Bug 排查 Prompt — CoT 三步推理法（分析→定位→修复建议）
 from llm_api import call_llm
 
 SYSTEM_PROMPT = """你是一个资深的 Python 后端调试专家。当用户给你一段报错信息和相关代码时，

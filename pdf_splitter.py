@@ -1,3 +1,4 @@
+# Day 9: PDF 加载与分块策略对比 — 三种 chunk_size (256/512/1024) 切分效果实验
 from pypdf import PdfReader
 from langchain_core.documents import Document
 from langchain_text_splitters import RecursiveCharacterTextSplitter

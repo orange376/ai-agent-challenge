@@ -14,3 +14,12 @@ __pycache__/
 # IDE
 .vscode/
 .idea/
+
+# 日志文件
+*.log
+
+# 评估结果（自动生成）
+manual_eval_results.json
+
+# 临时报告
+REPORT.md

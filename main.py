@@ -1,3 +1,4 @@
+# Day 4: 第一个 FastAPI 接口 — /chat 端点，Pydantic 请求/响应模型校验
 from fastapi import FastAPI
 from pydantic import BaseModel
 from llm_api import call_llm

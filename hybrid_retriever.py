@@ -1,3 +1,4 @@
+# Day 14: 混合检索 — 向量检索 + BM25 加权融合 (α=0.5)，互补语义与关键词匹配
 import numpy as np
 import jieba
 from rank_bm25 import BM25Okapi

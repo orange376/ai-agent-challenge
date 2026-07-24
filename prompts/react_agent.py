@@ -1,3 +1,4 @@
+# Day 7: ReAct Agent — 手动实现 Thought-Action-Observation 循环，stop 参数防幻觉
 from llm_api import call_llm
 from .tools import get_weather, get_attractions
 import re

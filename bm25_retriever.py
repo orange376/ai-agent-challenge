@@ -1,3 +1,4 @@
+# Day 13: BM25 关键词检索 — jieba 分词 + 稀疏检索，与 Day 10 向量检索互补
 from pypdf import PdfReader
 from langchain_text_splitters import RecursiveCharacterTextSplitter
 from langchain_core.documents import Document

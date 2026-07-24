@@ -1,3 +1,4 @@
+# Day 19: RAG 手动评估 — Faithfulness（忠实度）+ Answer Relevancy（切题度）双指标 LLM 评判
 import json
 import os
 from dotenv import load_dotenv
@@ -37,6 +38,15 @@ bm25 = BM25Okapi(tokenized_docs)
 
 # ========= 检索函数（复用混合检索逻辑） =========
 def vector_search(query, k=5):
+    """向量检索：余弦相似度 Top-K。
+
+    Args:
+        query: 查询字符串
+        k: 返回数量
+
+    Returns:
+        list[tuple[str, float]]: [(文本块, 相似度), ...]
+    """
     query_emb = embedding_model.embed_query(query)
     results = collection.query(query_embeddings=[query_emb], n_results=k)
     docs = results['documents'][0]
@@ -45,6 +55,15 @@ def vector_search(query, k=5):
     return list(zip(docs, similarities))
 
 def bm25_search_local(query, k=5):
+    """BM25 关键词检索：jieba 分词 + 得分归一化。
+
+    Args:
+        query: 查询字符串
+        k: 返回数量
+
+    Returns:
+        list[tuple[str, float]]: [(文本块, 归一化得分), ...]
+    """
     tokenized_query = tokenize(query)
     scores = bm25.get_scores(tokenized_query)
     top_indices = np.argsort(scores)[::-1][:k]
@@ -52,6 +71,16 @@ def bm25_search_local(query, k=5):
     return [(all_docs[i], scores[i] / max_score) for i in top_indices]
 
 def hybrid_search_local(query, alpha=0.5, k=5):
+    """混合检索：向量 + BM25 加权融合，返回 Top-K 文本块。
+
+    Args:
+        query: 查询字符串
+        alpha: 向量权重 (0~1)，默认 0.5
+        k: 返回数量
+
+    Returns:
+        list[str]: 融合后的 Top-K 文本块
+    """
     vec_results = vector_search(query, k=k)
     bm_results = bm25_search_local(query, k=k)
     fused = {}
@@ -64,9 +93,17 @@ def hybrid_search_local(query, alpha=0.5, k=5):
 
 # ------------------ 1. 评估逻辑 ------------------
 def evaluate_faithfulness(answer, contexts):
-    """
-    判断 answer 中的每条陈述是否都能从 contexts 中找到依据。
-    返回 0~1 的忠实度分数。
+    """评估答案忠实度：判断 answer 中的每一条陈述是否都能在 contexts 中找到依据。
+
+    通过 LLM 评判，逐条核对回答中的信息是否在参考上下文中可验证。
+    若回答诚实声明"无法找到相关信息"，且上下文确实不包含答案，也算忠实。
+
+    Args:
+        answer (str): LLM 生成的回答
+        contexts (list[str]): 检索到的参考文本块列表
+
+    Returns:
+        float: 忠实度分数，范围 0.0 ~ 1.0（解析失败返回 0.5）
     """
     prompt = f"""你是一个严格的评估助手。请判断以下“回答”中的每一条信息，是否都能在“参考上下文”中找到依据。
 如果回答中的信息在上下文中找不到，就说“无法验证”。如果回答说“根据文档无法找到相关信息”但上下文确实没有，也算忠实。
@@ -90,8 +127,16 @@ def evaluate_faithfulness(answer, contexts):
         return 0.5  # 解析失败给默认值
 
 def evaluate_relevancy(question, answer):
-    """
-    判断 answer 是否直接回答了 question，有没有答非所问。
+    """评估答案切题度：判断 answer 是否直接、切题地回答了 question。
+
+    检测回答是否跑题、答非所问或包含无关内容。
+
+    Args:
+        question (str): 用户原始问题
+        answer (str): LLM 生成的回答
+
+    Returns:
+        float: 切题度分数，范围 0.0 ~ 1.0（解析失败返回 0.5）
     """
     prompt = f"""你是一个评估助手。请判断以下回答是否直接、切题地回答了用户的问题。
 如果回答跑题、答非所问，或者包含无关内容，请扣分。

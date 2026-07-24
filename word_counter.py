@@ -1,3 +1,4 @@
+# Day 1: 命令行词频统计工具 — argparse + collections.Counter 基础练习
 import argparse
 from collections import Counter
 import re

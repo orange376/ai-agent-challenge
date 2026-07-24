@@ -1,4 +1,4 @@
-# tools.py
+# Day 7: ReAct Agent 工具定义 — get_weather / get_attractions 模拟函数
 def get_weather(city):
     """模拟天气查询"""
     weather_db = {

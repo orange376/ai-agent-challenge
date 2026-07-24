@@ -1,3 +1,4 @@
+# Day 2: 多格式文档加载器 — 支持 TXT/JSON/CSV，含 UTF-8/GBK 编码容错
 import json
 import csv
 

@@ -1,3 +1,4 @@
+# Day 11: 初版 RAG 问答 — Chroma 检索 → 拼接上下文 Prompt → DeepSeek 生成答案
 import os
 from dotenv import load_dotenv
 from langchain_openai import ChatOpenAI

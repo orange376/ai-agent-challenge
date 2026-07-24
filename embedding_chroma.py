@@ -1,3 +1,4 @@
+# Day 10: 文本向量化与 Chroma 向量库 — BGE embedding + 持久化存储 + 余弦相似度检索
 from pypdf import PdfReader
 from langchain_text_splitters import RecursiveCharacterTextSplitter
 from langchain_core.documents import Document

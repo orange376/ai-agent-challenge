@@ -1,3 +1,4 @@
+# Day 5: 长文摘要 Prompt — Markdown 结构化要点输出
 from llm_api import call_llm
 
 SYSTEM_PROMPT = """你是一个专业的文档摘要助手。你的任务是将长篇文章总结为结构化的要点。

@@ -1,2 +1,0 @@
-Hello world! This is a test file. 
-Hello again, world. This is just a simple test, test, test.

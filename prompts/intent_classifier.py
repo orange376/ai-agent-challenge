@@ -1,3 +1,4 @@
+# Day 6: 意图分类对比实验 — Zero-shot vs Few-shot vs CoT，CoT 模糊意图准确率领先 30%
 from llm_api import call_llm
 
 ZERO_SHOT_PROMPT = """你是一个客服意图分类助手。请将用户消息归类为以下之一：

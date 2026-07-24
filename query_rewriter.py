@@ -1,3 +1,4 @@
+# Day 15: 查询改写 — LLM 将模糊口语/情绪化表达改写为专业检索短语，提升召回率
 import os
 from dotenv import load_dotenv
 from openai import OpenAI
