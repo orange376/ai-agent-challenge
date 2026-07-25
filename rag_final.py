@@ -94,7 +94,7 @@ def hybrid_search(query, alpha=ALPHA, k=5):
 
 # ========= RAG 问答接口 =========
 def ask_rag(question):
-    “””RAG 问答主入口：查询改写 → 混合检索 → 拼接 Prompt → LLM 生成答案。
+    """RAG 问答主入口：查询改写 → 混合检索 → 拼接 Prompt → LLM 生成答案。
 
     整合了 Day 15 的查询改写和 Day 14 的混合检索，是 RAG 系统的核心管线。
 
@@ -106,16 +106,16 @@ def ask_rag(question):
             - answer (str): LLM 生成的最终回答
             - contexts (list[str]): 检索到的 Top-3 参考文本块
             - rewritten (str): 改写后的查询短语（用于调试和日志）
-    “””
+    """
     rewritten = rewrite_query(question)
-    print(f”📝 改写后查询: {rewritten}”)
+    print(f"📝 改写后查询: {rewritten}")
 
     contexts = hybrid_search(rewritten, alpha=ALPHA, k=3)
 
-    prompt = “你是一个专业的研究助手。请根据以下提供的文档片段回答用户的问题。\n如果文档片段中没有足够的信息，请如实说明”根据文档，无法找到相关信息”，不要编造。\n\n”
+    prompt = "你是一个专业的研究助手。请根据以下提供的文档片段回答用户的问题。如果文档片段中没有足够的信息，请如实说明\"根据文档，无法找到相关信息\"，不要编造。"
     for i, ctx in enumerate(contexts, 1):
-        prompt += f”【参考片段 {i}】\n{ctx}\n\n”
-    prompt += f”用户问题：{question}\n回答：”
+        prompt += f"【参考片段 {i}】{ctx}"
+    prompt += f"用户问题：{question}回答："
     answer = call_llm(prompt)
     return answer, contexts, rewritten
 

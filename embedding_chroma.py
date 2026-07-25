@@ -21,9 +21,9 @@ for page in reader.pages:
 full_text = "".join([doc.page_content for doc in documents])
 print(f"PDF 总页数: {len(documents)}, 总字符数: {len(full_text)}")
 
-# 使用上次实验效果较好的 chunk_size=256, overlap=50
+# 使用上次实验效果较好的 chunk_size=512, overlap=50
 splitter = RecursiveCharacterTextSplitter(
-    chunk_size=256,
+    chunk_size=512,
     chunk_overlap=50,
     separators=["\n\n", "\n", "。", "！", "？", "，", " ", ""]
 )
