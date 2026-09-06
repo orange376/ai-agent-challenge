@@ -1,6 +1,6 @@
 # AI Agent 应用开发学习项目
 
-涵盖 Prompt 工程、RAG 系统、ReAct Agent 和 LangChain/LlamaIndex 双框架实践，共 **19 天** 循序渐进。
+从 Prompt 工程、RAG 检索问答到 Agent 工具调用与 LangGraph 状态图的实战学习项目，涵盖 LangChain / LlamaIndex / LangGraph 多框架，共 **30+ 天** 循序渐进。
 
 ## 🏆 项目亮点
 
@@ -11,6 +11,7 @@
 - **10 题全面测试集**：覆盖直接匹配、跨段落推理、对比总结、反幻觉、部分信息覆盖五种挑战类型
 - **FastAPI 服务化**：`/rag/chat` 接口，返回答案 + 参考来源 + 置信度，附带请求日志
 - **双框架对比**：LangChain（组件化精细控制）与 LlamaIndex（封装度高、代码少）的实践感受
+- **Agent 与 LangGraph 进阶**：LangChain Agent / 多工具串联 / 对话记忆 / 异常熔断，进阶到 LangGraph 状态图复刻与 FastAPI 多会话服务化
 
 ## 📁 项目结构
 
@@ -51,6 +52,20 @@
 | `rag_api.py` | Day 19 | **RAG API 服务** — FastAPI `/rag/chat` 接口 |
 | `manual_eval.py` | Day 19 | **RAG 评估** — Faithfulness + Answer Relevancy |
 
+### Agent 与 LangGraph 阶段（Day 28 之后）
+
+在 RAG 基础上进一步探索 Agent：从 LangChain Agent 框架到自定义工具、多轮记忆与容错，再手写 LangGraph 状态图复现同样的循环，并沉淀为可服务的 FastAPI 接口。
+
+| 文件 | Day | 说明 |
+|------|-----|------|
+| `agents/agent_basic.py` | Day 28 | Agent 入门 — `tool_calling_agents` + 计算器工具，AgentExecutor 自动跑 Thought→Action→Observation |
+| `agents/agent_custom_tools.py` | Day 29 | 自定义三工具（天气 / 库存 / 用户信息），单/多工具串联调用 |
+| `agents/agent_resilient.py` | Day 31 | 异常处理与熔断 — 工具连续失败禁用 + 步数上限 + 逐步日志 |
+| `agents/agent_memory.py` | Day 32 | 对话记忆 — 全局 `messages` 历史实现多轮上下文 |
+| `agents/agent_langgraph.py` | Day 33 | LangGraph 重写 Agent — `StateGraph` + `ToolNode` + `add_messages` |
+| `agents/agent_travel.py` | — | LangGraph 旅游规划 — 意图识别 / 条件分支 / LLM 生成行程 / 人工确认 |
+| `agents/agent_api.py` | — | Agent 服务化 — FastAPI `/agent/chat`，多会话 + 线程锁并发安全 |
+
 ### 数据与配置
 
 | 文件 | 说明 |
@@ -59,6 +74,7 @@
 | `testset.json` | 4 题初始测试集 |
 | `requirements.txt` | Python 依赖清单 |
 | `.env.example` | 环境变量模板 |
+| `REPORT.md` | RAG 优化报告 — 切片/检索对比指标与踩坑记录 |
 
 ## ⚙️ 快速开始
 
@@ -90,11 +106,21 @@
    ```
 
 6. **运行评估**
-
-
-
    ```bash
    python manual_eval.py
    ```
 
-      项目视频简单介绍：https://www.bilibili.com/video/av116975447580144/?vd_source=b1df6ecd6f9d6fd9571ffe14f617080a
+7. **（可选）启动多会话 Agent 服务**
+   ```bash
+   uvicorn agents.agent_api:app --reload --port 8001
+   ```
+   调用示例：
+   ```bash
+   curl -X POST http://127.0.0.1:8001/agent/chat \
+     -H "Content-Type: application/json" \
+     -d '{"session_id": "u1", "question": "北京的天气怎么样？"}'
+   ```
+
+---
+
+> 📺 项目视频介绍：https://www.bilibili.com/video/av116975447580144/?vd_source=b1df6ecd6f9d6fd9571ffe14f617080a
